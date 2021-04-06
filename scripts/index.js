@@ -6,6 +6,7 @@ var ros;
 
 // ROS Subscribers
 var gps_sub;
+var performance_sub;
 
 function setup() {
     // Establish all element references for later use
@@ -33,7 +34,14 @@ function setup() {
         messageType: "embedded_controller_relay/NavSatReport"
     });
 
+    performance_sub = new ROSLIB.Topic({
+        ros: ros,
+        name: "/jetson_performance_report",
+        messageType: "jetson_performance_reporter/PerformanceReport"
+    });
+
     gps_sub.subscribe(update_gps);
+    performance_sub.subscribe(update_performance);
 }
 
 function ros_log(log) {
@@ -49,6 +57,16 @@ function update_gps(message) {
     $("#gps_timestamp").text(message.timestamp);
 }
 
+function update_performance(message) {
+    $("#cpu_usage").text(message.cpu_usage.toFixed(2) + "%");
+    $("#cpu_usage").attr("style", `width: ${message.cpu_usage}%`);
+
+    $("#gpu_usage").text(message.gpu_usage.toFixed(2) + "%");
+    $("#gpu_usage").attr("style", `width: ${message.gpu_usage}%`);
+
+    $("#memory_usage").text(message.mem_usage.toFixed(2) + "%");
+    $("#memory_usage").attr("style", `width: ${message.mem_usage}%`);
+}
 
 // Run Setup after the document loads
 window.onload = setup;

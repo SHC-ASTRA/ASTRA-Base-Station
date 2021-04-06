@@ -86,7 +86,29 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Jetson Performance</h4>
-                        <p class="card-text">Text</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-muted">
+                                CPU Usage
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="cpu_usage">25%</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item text-muted">
+                                GPU Usage
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="gpu_usage">25%</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item text-muted">
+                                Memory Usage
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="memory_usage">25%</div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
