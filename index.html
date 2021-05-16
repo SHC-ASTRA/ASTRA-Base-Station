@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <!-- Solution to Make Card Decks play nicely
+    https://stackoverflow.com/a/52634662/3435618-->
+    <style>
+        .card-deck {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: .5rem;
+        }
+    </style>
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -25,7 +35,7 @@
 
     <script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
     <script src="http://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
-    <script src="scripts/media-stream-library.min.js"></script>
+    <script src="/scripts/Controller.min.js"></script>
     <script src="/scripts/index.js"></script>
 
     <title>Data Visualization</title>
@@ -63,10 +73,6 @@
                 </form>
             </div>
         </nav>
-
-        <div class="row-fluid m-3">
-            <media-stream-player hostname="10.0.0.30:48000" format="RTP_H264" autoplay />
-        </div>
 
         <div class="row-fluid m-3">
             <div class="card-deck">
@@ -114,6 +120,13 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="holder.js/100x180/" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">Controller</h4>
+                        <p class="card-text" id="game_controller_status">I need to use a proper GameController for this to work</p>
                     </div>
                 </div>
             </div>

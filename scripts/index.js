@@ -8,6 +8,13 @@ var ros;
 var gps_sub;
 var performance_sub;
 
+// ROS Publishers
+var human_control_pub;
+
+// global control variables
+var speed = 0;
+var direction = 0;
+
 function setup() {
     // Establish all element references for later use
     ros_status = $("#ros_status_output");
@@ -42,6 +49,40 @@ function setup() {
 
     gps_sub.subscribe(update_gps);
     performance_sub.subscribe(update_performance);
+
+    setup_controller();
+}
+
+function setup_controller() {
+    if (Controller.supported) {
+        Controller.search();
+        $("#game_controller_status").text("Searching for controller...");
+    } else {
+        $("#game_controller_status").text("This browser does not support game controllers...");
+    }
+
+    window.addEventListener("gc.controller.found", function(event) {
+        var controller = event.detail.controller;
+        $("#game_controller_status").text("Controller found at index " + controller.index + ".");
+    }, false);
+
+    window.addEventListener("gc.analog.change", handle_analog_input, false);
+
+    // window.addEventListener("gc.button.hold", handle_button_input, false);
+}
+
+function handle_analog_input(event) {
+    var input = event.detail;
+
+    if (input.name == "RIGHT_ANALOG_STICK") {
+        direction = input.position.x;
+    } else if (input.name == "LEFT_ANALOG_STICK") {
+        speed = -input.position.y; // Controller Inputs are inverted
+    }
+}
+
+function handle_button_input(event) {
+
 }
 
 function ros_log(log) {
