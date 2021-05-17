@@ -15,6 +15,9 @@ var human_control_pub;
 var speed = 0;
 var direction = 0;
 
+var control_input_delay = 100; // milliseconds
+var last_control_input = 0;
+
 function setup() {
     // Establish all element references for later use
     ros_status = $("#ros_status_output");
@@ -47,6 +50,12 @@ function setup() {
         messageType: "jetson_performance_reporter/PerformanceReport"
     });
 
+    human_control_pub = new ROSLIB.Topic({
+        ros: ros,
+        name: "/control_input",
+        messageType: "control_input_aggregator/ControlInput"
+    });
+
     gps_sub.subscribe(update_gps);
     performance_sub.subscribe(update_performance);
 
@@ -54,6 +63,7 @@ function setup() {
 }
 
 function setup_controller() {
+    // Documentation: https://github.com/samiare/Controller.js/wiki
     if (Controller.supported) {
         Controller.search();
         $("#game_controller_status").text("Searching for controller...");
@@ -66,8 +76,12 @@ function setup_controller() {
         $("#game_controller_status").text("Controller found at index " + controller.index + ".");
     }, false);
 
-    window.addEventListener("gc.analog.change", handle_analog_input, false);
-
+    window.addEventListener("gc.analog.hold", handle_analog_input, false);
+    window.addEventListener("gc.analog.end", function(event) {
+        // Reset the timer to ensure this event is published
+        last_control_input = 0;
+        handle_analog_input(event);
+    }, false);
     // window.addEventListener("gc.button.hold", handle_button_input, false);
 }
 
@@ -79,6 +93,21 @@ function handle_analog_input(event) {
     } else if (input.name == "LEFT_ANALOG_STICK") {
         speed = -input.position.y; // Controller Inputs are inverted
     }
+
+    // Only skips publishing an input
+    if (Date.now() - last_control_input < control_input_delay)
+        return;
+
+    var control_input = new ROSLIB.Message({
+        channel: "base_human_input",
+        heading: [speed, direction],
+        speed_clamp: Math.sqrt(speed*speed + direction*direction),
+        is_urgent: false
+    });
+
+    human_control_pub.publish(control_input);
+
+    last_control_input = Date.now();
 }
 
 function handle_button_input(event) {
