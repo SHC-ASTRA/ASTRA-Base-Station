@@ -18,6 +18,7 @@ var direction = 0;
 
 var control_input_delay = 100; // milliseconds
 var last_control_input = 0;
+var control_input_enabled = true;
 
 function setup() {
     // Establish all element references for later use
@@ -67,6 +68,9 @@ function setup() {
     performance_sub.subscribe(update_performance);
     battery_sub.subscribe(update_battery);
 
+    $("#enable_input").change(enable_control_input);
+    $("#disable_input").change(disable_control_input);
+
     setup_controller();
 }
 
@@ -103,7 +107,7 @@ function handle_analog_input(event) {
     }
 
     // Only skips publishing an input
-    if (Date.now() - last_control_input < control_input_delay)
+    if (Date.now() - last_control_input < control_input_delay || !control_input_enabled)
         return;
 
     var control_input = new ROSLIB.Message({
@@ -120,6 +124,26 @@ function handle_analog_input(event) {
 
 function handle_button_input(event) {
 
+}
+
+function enable_control_input(event) {
+    control_input_enabled = true;
+    console.log("enable");
+}
+
+function disable_control_input(event) {
+    control_input_enabled = false;
+
+    var control_input = new ROSLIB.Message({
+        channel: "base_human_input",
+        heading: [.0, .0],
+        speed_clamp: 1,
+        is_urgent: false
+    });
+
+    human_control_pub.publish(control_input);
+
+    console.log("disable");
 }
 
 function ros_log(log) {
