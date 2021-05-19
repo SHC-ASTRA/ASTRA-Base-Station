@@ -149,6 +149,15 @@ function update_performance(message) {
 function update_battery(message) {
     $("#battery_charge").text((message.batteryCharge*100).toFixed(2) + "%");
     $("#battery_charge").attr("style", `width: ${message.batteryCharge*100}%`);
+    $("#battery_charge").removeClass(["bg-warning", "bg-success", "bg-danger"]);
+
+    if (message.batteryCharge > 0.25) {
+        $("#battery_charge").addClass("bg-success");
+    } else if(message.batteryCharge > 0.10) {
+        $("#battery_charge").addClass("bg-warning");
+    } else {
+        $("#battery_charge").addClass("bg-danger");
+    }
 }
 
 // Run Setup after the document loads
