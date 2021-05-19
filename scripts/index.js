@@ -7,6 +7,7 @@ var ros;
 // ROS Subscribers
 var gps_sub;
 var performance_sub;
+var battery_sub;
 
 // ROS Publishers
 var human_control_pub;
@@ -50,6 +51,12 @@ function setup() {
         messageType: "jetson_performance_reporter/PerformanceReport"
     });
 
+    battery_sub = new ROSLIB.Topic({
+        ros: ros,
+        name: "/battery",
+        messageType: "embedded_controller_relay/BatteryReport"
+    });
+
     human_control_pub = new ROSLIB.Topic({
         ros: ros,
         name: "/control_input",
@@ -58,6 +65,7 @@ function setup() {
 
     gps_sub.subscribe(update_gps);
     performance_sub.subscribe(update_performance);
+    battery_sub.subscribe(update_battery);
 
     setup_controller();
 }
@@ -91,7 +99,7 @@ function handle_analog_input(event) {
     if (input.name == "RIGHT_ANALOG_STICK") {
         direction = input.position.x;
     } else if (input.name == "LEFT_ANALOG_STICK") {
-        speed = -input.position.y; // Controller Inputs are inverted
+        speed = input.position.y; // Controller Inputs are inverted, but this is handled in the teensy
     }
 
     // Only skips publishing an input
@@ -136,6 +144,11 @@ function update_performance(message) {
 
     $("#memory_usage").text(message.mem_usage.toFixed(2) + "%");
     $("#memory_usage").attr("style", `width: ${message.mem_usage}%`);
+}
+
+function update_battery(message) {
+    $("#battery_charge").text((message.batteryCharge*100).toFixed(2) + "%");
+    $("#battery_charge").attr("style", `width: ${message.batteryCharge*100}%`);
 }
 
 // Run Setup after the document loads
