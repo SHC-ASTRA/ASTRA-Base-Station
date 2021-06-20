@@ -8,9 +8,19 @@ var ros;
 var gps_sub;
 var performance_sub;
 var battery_sub;
+var lidar_sub;
 
 // ROS Publishers
 var human_control_pub;
+
+// LiDAR Display Variables
+var lidar_canvas;
+var lidar_ctx;
+var sin_cache;
+var cos_cache;
+var lidar_alternate = false;
+var lidar_scale = 100;
+
 
 // global control variables
 var speed = 0;
@@ -21,6 +31,9 @@ var last_control_input = 0;
 var control_input_enabled = true;
 
 function setup() {
+    // Setup LiDAR display before ros
+    setup_lidar_display();
+
     // Establish all element references for later use
     ros_status = $("#ros_status_output");
 
@@ -58,6 +71,12 @@ function setup() {
         messageType: "embedded_controller_relay/BatteryReport"
     });
 
+    lidar_sub = new ROSLIB.Topic({
+        ros: ros,
+        name: "/scan",
+        messageType: "sensor_msgs/LaserScan"
+    });
+
     human_control_pub = new ROSLIB.Topic({
         ros: ros,
         name: "/control_input",
@@ -67,11 +86,24 @@ function setup() {
     gps_sub.subscribe(update_gps);
     performance_sub.subscribe(update_performance);
     battery_sub.subscribe(update_battery);
+    lidar_sub.subscribe(update_lidar);
 
     $("#enable_input").change(enable_control_input);
     $("#disable_input").change(disable_control_input);
 
     setup_controller();
+}
+
+function setup_lidar_display() {
+    lidar_canvas = document.getElementById("lidar_display");
+    lidar_ctx = lidar_canvas.getContext("2d");
+    sin_cache = [];
+    cos_cache = [];
+    for (var i = 0; i < 360; i++) {
+        var radians = Math.PI*i/180.0;
+        sin_cache.push(Math.sin(radians));
+        cos_cache.push(Math.cos(radians));
+    }
 }
 
 function setup_controller() {
@@ -181,6 +213,23 @@ function update_battery(message) {
         $("#battery_charge").addClass("bg-warning");
     } else {
         $("#battery_charge").addClass("bg-danger");
+    }
+}
+
+function update_lidar(message) {
+    lidar_ctx.clearRect(0, 0, lidar_canvas.width, lidar_canvas.height);
+    lidar_ctx.fillStyle = 'rgb(255, 0, 255)'
+    var mid_X = lidar_canvas.width / 2;
+    var mid_Y = lidar_canvas.height / 2;
+    var scale = 100;
+
+    for (var i = 0; i < 360; i++) {
+        var d = message.ranges[i];
+        // lidar_ctx.fillStyle = 'rgb(' + Math.floor(255 - d*50) + ',' + Math.floor(d*50) + ',0)';
+        lidar_ctx.fillRect(
+            parseInt(mid_X + scale * d * cos_cache[i]),            
+            parseInt(mid_Y - scale * d * sin_cache[i]),             
+            2, 2);
     }
 }
 
