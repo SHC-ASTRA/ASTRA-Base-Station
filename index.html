@@ -74,12 +74,64 @@
             </div>
         </nav>
 
-        <div class="row m-3">
-            <div class="col d-flex justify-content-center">
+        <div class="row mt-3">
+            <div class="col d-flex justify-content-center m-3"> <!-- LiDAR Visualization -->
                 <canvas class="border" id="lidar_display" width="400" height="400"> </canvas>          
             </div>
-            <div class="col">
-                Test 2
+            <div class="col d-flex justify-content-center m-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Autonomous Navigation Controls</h4>
+                        <!-- <textarea class="form-control h-75" id="autonomous_navigation_status_output" readonly></textarea> -->
+                        <ul class="list-group list-group-flush">                       
+                             <li class="list-group-item text-muted">
+                            </li>
+                        </ul>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="">Coords</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Latitude" aria-label="Latitude" id="latitude_next_leg">
+                            <input type="text" class="form-control" placeholder="Longitude" aria-label="Longitude" id="longitude_next_leg">
+                        </div>
+                        
+                        <ul class="list-group list-group-flush">                       
+                            <li class="list-group-item text-muted">
+                           </li>
+                       </ul>
+
+                        <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                                <input type="radio" name="next_leg_type" id="post" autocomplete="off" checked> Post
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" name="next_leg_type" id="gate" autocomplete="off"> Gate
+                            </label>
+                        </div>                        
+                        
+                        <ul class="list-group list-group-flush">                       
+                            <li class="list-group-item text-muted">
+                           </li>
+                       </ul>
+
+                        <div class="btn-group btn-group-toggle btn-block">
+                            <label class="btn btn-success">
+                                <input type="radio" name="autonomous_navigation_action" id="navigate_next_leg" autocomplete="off"> Navigate
+                            </label>
+                            <label class="btn btn-danger">
+                                <input type="radio" name="autonomous_navigation_action" id="return_last_leg" autocomplete="off"> Return
+                            </label>
+                        </div>                        
+                        
+                        <ul class="list-group list-group-flush">                       
+                            <li class="list-group-item text-muted">
+                                Status
+                                <textarea class="form-control h-75" id="autonomous_navigation_status_output" readonly></textarea>
+                           </li>
+                       </ul>                        
+                        
+                    </div>
+                </div>
             </div>
         </div>
 
