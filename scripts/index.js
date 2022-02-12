@@ -37,7 +37,7 @@ function setup() {
   ros_status = $('#ros_status_output');
 
   ros = new ROSLIB.Ros({
-    url: 'ws://10.0.0.30:9090',
+    url: `ws://${window.location.hostname}:9090`,
   });
 
   ros.on('connection', function () {
