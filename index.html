@@ -1,221 +1,334 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
 
     <!-- Solution to Make Card Decks play nicely
     https://stackoverflow.com/a/52634662/3435618-->
     <style>
-        .card-deck {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            grid-gap: .5rem;
-        }
+      .card-deck {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 0.5rem;
+      }
     </style>
-    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-
-    <script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.js"></script>
-    <script src="http://static.robotwebtools.org/roslibjs/current/roslib.js"></script>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/eventemitter2.js"></script>
+    <script src="./js/roslib.js"></script>
     <script src="/scripts/Controller.min.js"></script>
     <script src="/scripts/index.js"></script>
 
     <title>Data Visualization</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
-                data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+      <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler d-lg-none"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapsibleNavId"
+          aria-controls="collapsibleNavId"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="dropdownId"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Dropdown</a
+              >
+              <div class="dropdown-menu" aria-labelledby="dropdownId">
+                <a class="dropdown-item" href="#">Action 1</a>
+                <a class="dropdown-item" href="#">Action 2</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input
+              class="form-control mr-sm-2"
+              type="text"
+              placeholder="Search"
+            />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+              Search
             </button>
-            <div class="collapse navbar-collapse" id="collapsibleNavId">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownId">
-                            <a class="dropdown-item" href="#">Action 1</a>
-                            <a class="dropdown-item" href="#">Action 2</a>
-                        </div>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-
-        <div class="row mt-3">
-            <div class="col d-flex justify-content-center m-3"> <!-- LiDAR Visualization -->
-                <canvas class="border" id="lidar_display" width="400" height="400"> </canvas>          
-            </div>
-            <div class="col d-flex justify-content-center m-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Autonomous Navigation Controls</h4>
-                        <!-- <textarea class="form-control h-75" id="autonomous_navigation_status_output" readonly></textarea> -->
-                        <ul class="list-group list-group-flush">                       
-                             <li class="list-group-item text-muted">
-                            </li>
-                        </ul>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="">Coords</span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Latitude" aria-label="Latitude" id="latitude_next_leg">
-                            <input type="text" class="form-control" placeholder="Longitude" aria-label="Longitude" id="longitude_next_leg">
-                        </div>
-                        
-                        <ul class="list-group list-group-flush">                       
-                            <li class="list-group-item text-muted">
-                           </li>
-                       </ul>
-
-                        <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                            <label class="btn btn-primary active">
-                                <input type="radio" name="next_leg_type" id="post" autocomplete="off" checked> Post
-                            </label>
-                            <label class="btn btn-primary">
-                                <input type="radio" name="next_leg_type" id="gate" autocomplete="off"> Gate
-                            </label>
-                        </div>                        
-                        
-                        <ul class="list-group list-group-flush">                       
-                            <li class="list-group-item text-muted">
-                           </li>
-                       </ul>
-
-                        <div class="btn-group btn-group-toggle btn-block">
-                            <label class="btn btn-success">
-                                <input type="radio" name="autonomous_navigation_action" id="navigate_next_leg" autocomplete="off"> Navigate
-                            </label>
-                            <label class="btn btn-danger">
-                                <input type="radio" name="autonomous_navigation_action" id="return_last_leg" autocomplete="off"> Return
-                            </label>
-                        </div>                        
-                        
-                        <ul class="list-group list-group-flush">                       
-                            <li class="list-group-item text-muted">
-                                Status
-                                <textarea class="form-control h-75" id="autonomous_navigation_status_output" readonly></textarea>
-                           </li>
-                       </ul>                        
-                        
-                    </div>
-                </div>
-            </div>
+          </form>
         </div>
+      </nav>
 
-        <div class="row-fluid m-3">
-            <div class="card-deck">
-                <div class="card"> <!-- ROS Status Card -->
-                    <div class="card-body">
-                        <h4 class="card-title">ROS Status</h4>
-                        <textarea class="form-control h-75" id="ros_status_output" readonly></textarea>
-                    </div>
-                </div>
-                <div class="card"> <!-- GPS Card -->
-                    <div class="card-body">
-                        <h4 class="card-title">GPS Fix</h4>
-                        <p class="card-text" id="gps_latitude">Latitude</p>
-                        <p class="card-text" id="gps_longitude">Longitude</p>
-                        <p class="card-text" id="gps_altitude">Altitude</p>
-                        <p class="card-text" id="gps_accuracy">Accuracy</p>
-                    </div>
-                    <div class="card-footer text-muted" id="gps_timestamp">
-                        Time
-                    </div>
-                </div>
-                <div class="card"> <!-- Jetson Performance Card -->
-                    <div class="card-body">
-                        <h4 class="card-title">Jetson Performance</h4>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item text-muted">
-                                CPU Usage
-                                <div class="progress">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;"
-                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="cpu_usage">25%</div>
-                                </div>
-                            </li>
-                            <li class="list-group-item text-muted">
-                                GPU Usage
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%;"
-                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="gpu_usage">25%</div>
-                                </div>
-                            </li>
-                            <li class="list-group-item text-muted">
-                                Memory Usage
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;"
-                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="memory_usage">25%</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card"> <!-- Game Controller Card -->
-                    <div class="card-body">
-                        <h4 class="card-title">Controller</h4>
-                        <p class="card-text" id="game_controller_status">I need to use a proper GameController for this to work</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="enable_controller_input" id="enable_input" autocomplete="off" checked> Enabled
-                            </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="enable_controller_input" id="disable_input" autocomplete="off"> Disabled
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card"> <!-- Rover Diagnostics Card -->
-                    <div class="card-body">
-                        <h4 class="card-title">Rover Diagnostics</h4>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item text-muted">
-                                Battery Charge
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;"
-                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" id="battery_charge">25%</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      <div class="row mt-3">
+        <div class="col d-flex justify-content-center m-3">
+          <!-- LiDAR Visualization -->
+          <canvas class="border" id="lidar_display" width="400" height="400">
+          </canvas>
         </div>
+        <div class="col d-flex justify-content-center m-3">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Autonomous Navigation Controls</h4>
+              <!-- <textarea class="form-control h-75" id="autonomous_navigation_status_output" readonly></textarea> -->
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"></li>
+              </ul>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Coords</span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Latitude"
+                  aria-label="Latitude"
+                  id="latitude_next_leg"
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Longitude"
+                  aria-label="Longitude"
+                  id="longitude_next_leg"
+                />
+              </div>
+
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"></li>
+              </ul>
+
+              <div
+                class="btn-group btn-group-toggle btn-block"
+                data-toggle="buttons"
+              >
+                <label class="btn btn-primary active">
+                  <input
+                    type="radio"
+                    name="next_leg_type"
+                    id="post"
+                    autocomplete="off"
+                    checked
+                  />
+                  Post
+                </label>
+                <label class="btn btn-primary">
+                  <input
+                    type="radio"
+                    name="next_leg_type"
+                    id="gate"
+                    autocomplete="off"
+                  />
+                  Gate
+                </label>
+              </div>
+
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"></li>
+              </ul>
+
+              <div class="btn-group btn-group-toggle btn-block">
+                <label class="btn btn-success">
+                  <input
+                    type="radio"
+                    name="autonomous_navigation_action"
+                    id="navigate_next_leg"
+                    autocomplete="off"
+                  />
+                  Navigate
+                </label>
+                <label class="btn btn-danger">
+                  <input
+                    type="radio"
+                    name="autonomous_navigation_action"
+                    id="return_last_leg"
+                    autocomplete="off"
+                  />
+                  Return
+                </label>
+              </div>
+
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted">
+                  Status
+                  <textarea
+                    class="form-control h-75"
+                    id="autonomous_navigation_status_output"
+                    readonly
+                  ></textarea>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-fluid m-3">
+        <div class="card-deck">
+          <div class="card">
+            <!-- ROS Status Card -->
+            <div class="card-body">
+              <h4 class="card-title">ROS Status</h4>
+              <textarea
+                class="form-control h-75"
+                id="ros_status_output"
+                readonly
+              ></textarea>
+            </div>
+          </div>
+          <div class="card">
+            <!-- GPS Card -->
+            <div class="card-body">
+              <h4 class="card-title">GPS Fix</h4>
+              <p class="card-text" id="gps_latitude">Latitude</p>
+              <p class="card-text" id="gps_longitude">Longitude</p>
+              <p class="card-text" id="gps_altitude">Altitude</p>
+              <p class="card-text" id="gps_accuracy">Accuracy</p>
+            </div>
+            <div class="card-footer text-muted" id="gps_timestamp">Time</div>
+          </div>
+          <div class="card">
+            <!-- Jetson Performance Card -->
+            <div class="card-body">
+              <h4 class="card-title">Jetson Performance</h4>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted">
+                  CPU Usage
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-primary"
+                      role="progressbar"
+                      style="width: 25%"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      id="cpu_usage"
+                    >
+                      25%
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item text-muted">
+                  GPU Usage
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-success"
+                      role="progressbar"
+                      style="width: 25%"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      id="gpu_usage"
+                    >
+                      25%
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item text-muted">
+                  Memory Usage
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-warning"
+                      role="progressbar"
+                      style="width: 25%"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      id="memory_usage"
+                    >
+                      25%
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card">
+            <!-- Game Controller Card -->
+            <div class="card-body">
+              <h4 class="card-title">Controller</h4>
+              <p class="card-text" id="game_controller_status">
+                I need to use a proper GameController for this to work
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                  <input
+                    type="radio"
+                    name="enable_controller_input"
+                    id="enable_input"
+                    autocomplete="off"
+                    checked
+                  />
+                  Enabled
+                </label>
+                <label class="btn btn-secondary">
+                  <input
+                    type="radio"
+                    name="enable_controller_input"
+                    id="disable_input"
+                    autocomplete="off"
+                  />
+                  Disabled
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <!-- Rover Diagnostics Card -->
+            <div class="card-body">
+              <h4 class="card-title">Rover Diagnostics</h4>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted">
+                  Battery Charge
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-warning"
+                      role="progressbar"
+                      style="width: 25%"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      id="battery_charge"
+                    >
+                      25%
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
