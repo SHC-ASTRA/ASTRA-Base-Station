@@ -60,7 +60,7 @@ function setup() {
 
   performance_sub = new ROSLIB.Topic({
     ros: ros,
-    name: '/jetson_performance_report',
+    name: '/jetson/performance_report',
     messageType: 'jetson_performance_reporter/PerformanceReport',
   });
 
