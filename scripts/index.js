@@ -54,7 +54,7 @@ function setup() {
 
   gps_sub = new ROSLIB.Topic({
     ros: ros,
-    name: '/gps',
+    name: '/teensy/gps',
     messageType: 'embedded_controller_relay/NavSatReport',
   });
 
@@ -66,7 +66,7 @@ function setup() {
 
   battery_sub = new ROSLIB.Topic({
     ros: ros,
-    name: '/battery',
+    name: '/teensy/battery_status',
     messageType: 'embedded_controller_relay/BatteryReport',
   });
 
@@ -82,6 +82,12 @@ function setup() {
     messageType: 'control_input_aggregator/ControlInput',
   });
 
+  nav_command_pub = new ROSLIB.Topic({
+    ros: ros,
+    name: '/navigation_command',
+    messageType: 'navigation_controller/NavigationCommand'
+  });
+
   gps_sub.subscribe(update_gps);
   performance_sub.subscribe(update_performance);
   battery_sub.subscribe(update_battery);
@@ -89,6 +95,7 @@ function setup() {
 
   $('#enable_input').change(enable_control_input);
   $('#disable_input').change(disable_control_input);
+  $('#navigate_next_leg').click(send_navigation_command);
 
   setup_controller();
 }
@@ -190,6 +197,17 @@ function disable_control_input(event) {
   console.log('disable');
 }
 
+function send_navigation_command(event) {
+  var nav_command = new ROSLIB.Message({
+    target: "Post",
+    latitude: parseFloat($("#latitude_next_leg").val()),
+    longitude: parseFloat($("#longitude_next_leg").val()),
+    accuracy: 3.0
+  });
+
+  nav_command_pub.publish(nav_command);
+}
+
 function ros_log(log) {
   time = new Date().toTimeString().split(' ')[0];
   ros_status.text('[' + time + '] ' + log + '\n' + ros_status.text());
@@ -225,6 +243,18 @@ function update_battery(message) {
     $('#battery_charge').addClass('bg-warning');
   } else {
     $('#battery_charge').addClass('bg-danger');
+  }
+
+  $('#battery_voltage').text((message.batteryVoltage).toFixed(1) + 'V');
+  $('#battery_voltage').attr('style', `width: ${((message.batteryVoltage-24)/(34-24))*100}%`);
+  $('#battery_voltage').removeClass(['bg-warning', 'bg-success', 'bg-danger']);
+
+  if (message.batteryVoltage > 30) {
+    $('#battery_voltage').addClass('bg-success');
+  } else if (message.batteryVoltage > 28) {
+    $('#battery_voltage').addClass('bg-warning');
+  } else {
+    $('#battery_voltage').addClass('bg-danger');
   }
 }
 
