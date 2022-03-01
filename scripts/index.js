@@ -88,6 +88,12 @@ function setup() {
     messageType: 'navigation_controller/NavigationCommand'
   });
 
+  nav_gps_pub = new ROSLIB.Topic({
+    ros: ros,
+    name: '/nav_goal_gps',
+    messageType: 'sensor_msgs/NavSatFix'
+  });
+
   gps_sub.subscribe(update_gps);
   performance_sub.subscribe(update_performance);
   battery_sub.subscribe(update_battery);
@@ -206,7 +212,14 @@ function send_navigation_command(event) {
     accuracy: 3.0
   });
 
+  var nav_goal_gps = new ROSLIB.Message({
+    latitude: nav_command.latitude,
+    longitude: nav_command.longitude,
+    altitude: 0
+  });
+
   nav_command_pub.publish(nav_command);
+  nav_gps_pub.publish(nav_goal_gps);
 }
 
 function send_abort_command(event) {
