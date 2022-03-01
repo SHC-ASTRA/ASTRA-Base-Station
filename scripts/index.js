@@ -151,7 +151,7 @@ function handle_analog_input(event) {
   var input = event.detail;
 
   if (input.name == 'RIGHT_ANALOG_STICK') {
-    direction = -input.position.y;
+    direction = input.position.y;
   } else if (input.name == 'LEFT_ANALOG_STICK') {
     speed = -input.position.y; // Controller Inputs are inverted
   }
