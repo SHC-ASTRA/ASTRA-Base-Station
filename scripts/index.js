@@ -96,6 +96,7 @@ function setup() {
   $('#enable_input').change(enable_control_input);
   $('#disable_input').change(disable_control_input);
   $('#navigate_next_leg').click(send_navigation_command);
+  $('#abort').click(send_abort_command);
 
   setup_controller();
 }
@@ -200,6 +201,17 @@ function disable_control_input(event) {
 function send_navigation_command(event) {
   var nav_command = new ROSLIB.Message({
     target: "Post",
+    latitude: parseFloat($("#latitude_next_leg").val()),
+    longitude: parseFloat($("#longitude_next_leg").val()),
+    accuracy: 3.0
+  });
+
+  nav_command_pub.publish(nav_command);
+}
+
+function send_abort_command(event) {
+  var nav_command = new ROSLIB.Message({
+    target: "Abort",
     latitude: parseFloat($("#latitude_next_leg").val()),
     longitude: parseFloat($("#longitude_next_leg").val()),
     accuracy: 3.0
