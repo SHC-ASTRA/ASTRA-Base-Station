@@ -76,6 +76,12 @@ function setup() {
     messageType: 'sensor_msgs/LaserScan',
   });
 
+  nav_status_sub = new ROSLIB.Topic({
+    ros: ros,
+    name: '/navigation_status',
+    messageType: 'std_msgs/String'
+  });
+
   human_control_pub = new ROSLIB.Topic({
     ros: ros,
     name: '/control_input',
@@ -98,6 +104,7 @@ function setup() {
   performance_sub.subscribe(update_performance);
   battery_sub.subscribe(update_battery);
   lidar_sub.subscribe(update_lidar);
+  nav_status_sub.subscribe(update_status);
 
   $('#enable_input').change(enable_control_input);
   $('#disable_input').change(disable_control_input);
@@ -105,6 +112,10 @@ function setup() {
   $('#abort').click(send_abort_command);
 
   setup_controller();
+}
+
+function update_status() {
+  alert("Destination reached!");
 }
 
 function setup_lidar_display() {
