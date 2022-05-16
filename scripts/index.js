@@ -25,13 +25,13 @@ var lidar_scale = 100;
 var speed = 0;
 var direction = 0;
 
-var control_input_delay = 100; // milliseconds
+var control_input_delay = 10; // milliseconds
 var last_control_input = 0;
 var control_input_enabled = true;
 
 function setup() {
-  // Setup LiDAR display before ros
-  setup_lidar_display();
+  // // Setup LiDAR display before ros
+  // setup_lidar_display();
 
   // Establish all element references for later use
   ros_status = $('#ros_status_output');
@@ -70,11 +70,11 @@ function setup() {
     messageType: 'embedded_controller_relay/BatteryReport',
   });
 
-  lidar_sub = new ROSLIB.Topic({
-    ros: ros,
-    name: '/scan',
-    messageType: 'sensor_msgs/LaserScan',
-  });
+  // lidar_sub = new ROSLIB.Topic({
+  //   ros: ros,
+  //   name: '/scan',
+  //   messageType: 'sensor_msgs/LaserScan',
+  // });
 
   nav_status_sub = new ROSLIB.Topic({
     ros: ros,
@@ -103,7 +103,7 @@ function setup() {
   gps_sub.subscribe(update_gps);
   performance_sub.subscribe(update_performance);
   battery_sub.subscribe(update_battery);
-  lidar_sub.subscribe(update_lidar);
+  // lidar_sub.subscribe(update_lidar);
   nav_status_sub.subscribe(update_status);
 
   $('#enable_input').change(enable_control_input);
@@ -118,17 +118,17 @@ function update_status() {
   alert("Destination reached!");
 }
 
-function setup_lidar_display() {
-  lidar_canvas = document.getElementById('lidar_display');
-  lidar_ctx = lidar_canvas.getContext('2d');
-  sin_cache = [];
-  cos_cache = [];
-  for (var i = 0; i < 360; i++) {
-    var radians = (Math.PI * i) / 180.0;
-    sin_cache.push(Math.sin(radians));
-    cos_cache.push(Math.cos(radians));
-  }
-}
+// function setup_lidar_display() {
+//   lidar_canvas = document.getElementById('lidar_display');
+//   lidar_ctx = lidar_canvas.getContext('2d');
+//   sin_cache = [];
+//   cos_cache = [];
+//   for (var i = 0; i < 360; i++) {
+//     var radians = (Math.PI * i) / 180.0;
+//     sin_cache.push(Math.sin(radians));
+//     cos_cache.push(Math.cos(radians));
+//   }
+// }
 
 function setup_controller() {
   // Documentation: https://github.com/samiare/Controller.js/wiki
@@ -174,12 +174,12 @@ function handle_analog_input(event) {
     speed = -input.position.y; // Controller Inputs are inverted
   }
 
-  // Only skips publishing an input
-  if (
-    Date.now() - last_control_input < control_input_delay ||
-    !control_input_enabled
-  )
-    return;
+  // // Only skips publishing an input
+  // if (
+  //   Date.now() - last_control_input < control_input_delay ||
+  //   !control_input_enabled
+  // )
+  //   return;
 
   var control_input = new ROSLIB.Message({
     channel: 'base_human_input',
@@ -294,24 +294,24 @@ function update_battery(message) {
   }
 }
 
-function update_lidar(message) {
-  lidar_ctx.clearRect(0, 0, lidar_canvas.width, lidar_canvas.height);
-  lidar_ctx.fillStyle = 'rgb(255, 0, 255)';
-  var mid_X = lidar_canvas.width / 2;
-  var mid_Y = lidar_canvas.height / 2;
-  var scale = 100;
+// function update_lidar(message) {
+//   lidar_ctx.clearRect(0, 0, lidar_canvas.width, lidar_canvas.height);
+//   lidar_ctx.fillStyle = 'rgb(255, 0, 255)';
+//   var mid_X = lidar_canvas.width / 2;
+//   var mid_Y = lidar_canvas.height / 2;
+//   var scale = 100;
 
-  for (var i = 0; i < 360; i++) {
-    var d = message.ranges[i];
-    // lidar_ctx.fillStyle = 'rgb(' + Math.floor(255 - d*50) + ',' + Math.floor(d*50) + ',0)';
-    lidar_ctx.fillRect(
-      parseInt(mid_X + scale * d * cos_cache[i]),
-      parseInt(mid_Y - scale * d * sin_cache[i]),
-      2,
-      2
-    );
-  }
-}
+//   for (var i = 0; i < 360; i++) {
+//     var d = message.ranges[i];
+//     // lidar_ctx.fillStyle = 'rgb(' + Math.floor(255 - d*50) + ',' + Math.floor(d*50) + ',0)';
+//     lidar_ctx.fillRect(
+//       parseInt(mid_X + scale * d * cos_cache[i]),
+//       parseInt(mid_Y - scale * d * sin_cache[i]),
+//       2,
+//       2
+//     );
+//   }
+// }
 
 // Run Setup after the document loads
 window.onload = setup;
