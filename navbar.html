@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <a class="navbar-brand" href="#">ASTRA</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
+        data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/index.html">Status</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Motor Control<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/biocontrol.html">Biosensor Control</a>
+            </li>
+                <a class="nav-link" href="http://192.168.1.3/index.html">Arm Control</a>
+            </li>
+        </ul>
+        <div class="input-group" style="max-width: fit-content;">
+            <div class="input-group-prepend">
+                <span class="input-group-text">ROS Master URI</span>
+                <span class="input-group-text">ws://</span>
+            </div>
+            <input id="rosBridgeAddress" class="form-control" type="text" value="jetson:9090" />
+            <div class="input-group-append">
+                <button id="rosBridgeConnect" class="btn btn-outline-success" type="button">Connect</button>
+            </div>
+        </div>
+    </div>
+</nav>

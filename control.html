@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+	<!-- Leaflet CSS -->
+	<link rel="stylesheet" href="/css/leaflet.css"
+		integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+		crossorigin="" />
+
+	<!-- Solution to Make Card Decks play nicely
+    https://stackoverflow.com/a/52634662/3435618-->
+	<style>
+		.card-deck {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			grid-gap: 0.5rem;
+		}
+	</style>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="/js/jquery-3.6.0.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/eventemitter2.js"></script>
+	<script src="/js/roslib.js"></script>
+	<script src="/js/leaflet.js"
+		integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+		crossorigin=""></script>
+	<script src="/scripts/Controller.min.js"></script>
+	<script src="/scripts/inputHandler.js"></script>
+	<script src="/scripts/navbar.js"></script>
+	<script src="/scripts/control.js"></script>
+
+	<title>Data Visualization</title>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div id="navbar"></div>
+
+		<div class="row mt-3" style="min-height: 90vh; max-height: 90vh;">
+			<div class="col-2">
+				<div class="card">
+					<div class="card-header">Rover Orientation</div>
+					<div class="card-body">
+						<svg id="rover_roll_svg" xmlns="http://www.w3.org/2000/svg"
+							xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 400"
+							shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+							<ellipse rx="190" ry="190" transform="translate(200 200)" fill="rgba(210,219,237,0)"
+								stroke="#000" stroke-width="8" />
+							<rect width="150" height="50" rx="0" ry="0" transform="translate(125 150)" fill="#d2dbed"
+								stroke="#000" stroke-width="4" />
+							<rect width="20" height="40" rx="0" ry="0" transform="translate(105 240)" fill="#d2dbed"
+								stroke="#000" stroke-width="2" />
+							<rect width="20" height="40" rx="0" ry="0" transform="translate(275 240)" fill="#d2dbed"
+								stroke="#000" stroke-width="2" />
+						</svg>
+						<div class="input-group mt-3 mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Roll</span>
+							</div>
+							<input id="rover_roll" type="number" class="form-control" readonly>
+						</div>
+						<svg id="rover_pitch_svg" xmlns="http://www.w3.org/2000/svg"
+							xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 400"
+							shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+							<ellipse rx="190" ry="190" transform="translate(200 200)" fill="rgba(210,219,237,0)"
+								stroke="#000" stroke-width="8" />
+							<rect width="150" height="50" rx="0" ry="0" transform="translate(125 150)" fill="#d2dbed"
+								stroke="#000" stroke-width="4" />
+							<ellipse rx="20" ry="20" transform="translate(115 260)" fill="#d2dbed" stroke="#000"
+								stroke-width="2" />
+							<ellipse rx="20" ry="20" transform="translate(285 260)" fill="#d2dbed" stroke="#000"
+								stroke-width="2" />
+							<line x1="-42.5" y1="42.5" x2="42.5" y2="-42.5" transform="translate(157.5 217.5)"
+								fill="none" stroke="#3f5787" stroke-width="3" />
+							<line x1="-42.5" y1="-42.5" x2="42.5" y2="42.5" transform="translate(242.5 217.5)"
+								fill="none" stroke="#3f5787" stroke-width="3" />
+							<line x1="-21.25" y1="33.658082" x2="21.25" y2="-33.658082"
+								transform="translate(221.25 116.341918)" fill="none" stroke="#3f5787"
+								stroke-width="8" />
+							<line x1="-31.25" y1="-14.571331" x2="31.25" y2="14.571332"
+								transform="translate(273.75 97.255168)" fill="none" stroke="#3f5787" stroke-width="8" />
+							<line x1="-4.26042" y1="-9.827177" x2="4.26042" y2="9.827177"
+								transform="translate(309.26042 121.653677)" fill="none" stroke="#3f5787"
+								stroke-width="8" />
+						</svg>
+						<div class="input-group mt-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Pitch</span>
+							</div>
+							<input id="rover_pitch" type="number" class="form-control" readonly>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-7">
+				<div class="card h-100 mh-100">
+					<div class="card-header">Map
+					</div>
+					<div class="card-body p-0 bg-dark" style="position: relative;">
+						<div id="map" class="h-100 w-100" role="tabpanel" aria-labelledby="map-tab">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">Control Panel</div>
+					<div class="card-body">
+						<svg id="rover_status_svg" xmlns="http://www.w3.org/2000/svg"
+							xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 300"
+							shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+							<rect width="150" height="225" rx="0" ry="0" transform="translate(125 37.5)" fill="#d2dbed"
+								stroke="#000" stroke-width="4" />
+							<rect width="30" height="50" rx="0" ry="0" transform="translate(285 12.5)" fill="#d2dbed"
+								stroke="#000" stroke-width="2" />
+							<rect width="30" height="50" rx="0" ry="0" transform="translate(285 237.5)" fill="#d2dbed"
+								stroke="#000" stroke-width="2" />
+							<rect width="30" height="50" rx="0" ry="0" transform="translate(85 237.5)" fill="#d2dbed"
+								stroke="#000" stroke-width="2" />
+							<rect width="30" height="50" rx="0" ry="0" transform="translate(85 12.5)" fill="#d2dbed"
+								stroke="#000" stroke-width="2" />
+							<text dx="0" dy="0" font-family="&quot;eczj9oJWeaw1:::Roboto&quot;" font-size="17.5"
+								font-weight="400" transform="translate(40 43.091325)" stroke-width="0">
+								<tspan id="frontLeftWheelDisplay" y="0" font-weight="400" stroke-width="0">
+									<![CDATA[ +100  ]]>
+								</tspan>
+							</text>
+							<text dx="0" dy="0" font-family="&quot;eczj9oJWeaw1:::Roboto&quot;" font-size="17.5"
+								font-weight="400" transform="translate(325 43.301706)" stroke-width="0">
+								<tspan id="frontRightWheelDisplay" y="0" font-weight="400" stroke-width="0">
+									<![CDATA[ +100 ]]>
+								</tspan>
+							</text>
+							<text dx="0" dy="0" font-family="&quot;eczj9oJWeaw1:::Roboto&quot;" font-size="17.5"
+								font-weight="400" transform="translate(325 268.301706)" stroke-width="0">
+								<tspan id="backRightWheelDisplay" y="0" font-weight="400" stroke-width="0">
+									<![CDATA[ +100 ]]>
+								</tspan>
+							</text>
+							<text dx="0" dy="0" font-family="&quot;eczj9oJWeaw1:::Roboto&quot;" font-size="17.5"
+								font-weight="400" transform="translate(40 268.301706)" stroke-width="0">
+								<tspan id="backLeftWheelDisplay" y="0" font-weight="400" stroke-width="0">
+									<![CDATA[ +100 ]]>
+								</tspan>
+							</text>
+							<style>
+								<![CDATA[
+								@font-face {
+									font-family: 'eczj9oJWeaw1:::Roboto';
+									font-style: normal;
+									font-weight: 400;
+									src: url(data:font/ttf;charset=utf-8;base64,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) format('truetype');
+								}
+								]]>
+							</style>
+						</svg>
+						<div class="form-row" style="align-items: center;">
+							<div class="col-10" style="align-items: center;">
+								<input id="motorPowerControl" type="range" class="form-control-range" value="50">
+							</div>
+							<div class="col-2">
+								<input id="motorPowerDisplay" type="text" class="form-control" placeholder="50"
+									readonly>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="input-group">
+							<select id="controllerDropdown" class="custom-select">
+								<option value="-1" selected>Choose a controller...</option>
+							</select>
+							<div class="input-group-append">
+								<button id="controlToggleButton" type="button" class="btn btn-success">Enable</button>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Voltage</span>
+							</div>
+							<input id="batteryVoltage" type="text" class="form-control" readonly>
+						</div>
+						<div class="input-group mt-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Range</span>
+							</div>
+							<input id="roverRange" type="text" class="form-control" readonly>
+						</div>
+						<div class="input-group mt-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Speed</span>
+							</div>
+							<input id="roverSpeed" type="text" class="form-control" readonly>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
