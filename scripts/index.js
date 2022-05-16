@@ -9,6 +9,7 @@ var gps_sub;
 var performance_sub;
 var battery_sub;
 var lidar_sub;
+var rosout_sub;
 
 // ROS Publishers
 var human_control_pub;
@@ -61,6 +62,12 @@ function setup() {
     messageType: 'embedded_controller_relay/BatteryReport',
   });
 
+  rosout_sub = new ROSLIB.Topic({
+    ros: ros,
+    name: '/rosout',
+    messageType: 'rosgraph_msgs/Log'
+  });
+
   // lidar_sub = new ROSLIB.Topic({
   //   ros: ros,
   //   name: '/scan',
@@ -94,6 +101,7 @@ function setup() {
   gps_sub.subscribe(update_gps);
   performance_sub.subscribe(update_performance);
   battery_sub.subscribe(update_battery);
+  rosout_sub.subscribe(function (data) { ros_log(data.msg) } );
   // lidar_sub.subscribe(update_lidar);
   nav_status_sub.subscribe(update_status);
 
