@@ -29,6 +29,10 @@ var control_input_delay = 10; // milliseconds
 var last_control_input = 0;
 var control_input_enabled = true;
 
+function preSetup() {
+  setupNavBar("#navbar", setup);
+}
+
 function setup() {
   // // Setup LiDAR display before ros
   // setup_lidar_display();
@@ -36,21 +40,8 @@ function setup() {
   // Establish all element references for later use
   ros_status = $('#ros_status_output');
 
-  ros = new ROSLIB.Ros({
-    url: `ws://${window.location.hostname}:9090`,
-  });
-
-  ros.on('connection', function () {
-    ros_log('Connected to websocket server.');
-  });
-
-  ros.on('error', function (error) {
-    ros_log('Error connection to websocket server: ' + error);
-  });
-
-  ros.on('close', function () {
-    ros_log('Connection to websocket server closed.');
-  });
+  // Setup ROS
+  ros = setupRos();
 
   gps_sub = new ROSLIB.Topic({
     ros: ros,
@@ -314,4 +305,4 @@ function update_battery(message) {
 // }
 
 // Run Setup after the document loads
-window.onload = setup;
+window.onload = preSetup;

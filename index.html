@@ -21,43 +21,23 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="./js/jquery.min.js"></script>
+    <script src="./js/jquery-3.6.0.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/eventemitter2.js"></script>
     <script src="./js/roslib.js"></script>
     <script src="/scripts/Controller.min.js"></script>
+	<script src="/scripts/navbar.js"></script>
     <script src="/scripts/index.js"></script>
 
     <title>Data Visualization</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">ASTRA</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
-            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavId">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Rover Control<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/biocontrol.html">Bio Control</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div id="navbar"></div>
     <div class="container-fluid">
 
         <div class="row mt-3">
-            <!-- <div class="col d-flex justify-content-center m-3">
-                <!-- LiDAR Visualization --
-                <canvas class="border" id="lidar_display" width="400" height="400">
-                </canvas>
-            </div> -->
             <div class="col-auto justify-content-center m-3">
                 <div class="card">
                     <div class="card-body">
