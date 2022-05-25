@@ -17,7 +17,7 @@
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/eventemitter2.js"></script>
     <script src="./js/roslib.js"></script>
-	<script src="./scripts/navbar.js"></script>
+    <script src="./scripts/navbar.js"></script>
     <script src="./scripts/bioindex.js"></script>
 </head>
 
@@ -61,26 +61,34 @@
                         </div>
                         <div class="input-group-append">
                             <select class="custom-select" id="carousel_rel_from">
-                                <option selected>From...</option>
-                                <option value="1">Separator 1</option>
-                                <option value="2">Separator 2</option>
-                                <option value="3">Separator 3</option>
-                                <option value="4">Dosing 1</option>
-                                <option value="5">Dosing 2</option>
-                                <option value="6">Capping</option>
-                                <option value="7">Observation</option>
+                                <option value="0" selected>From...</option>
+                                <option value="separator1">Separator 1</option>
+                                <option value="separator2">Separator 2</option>
+                                <option value="separator3">Separator 3</option>
+                                <option value="dosing1">Dosing 1</option>
+                                <option value="dosing2">Dosing 2</option>
+                                <option value="capping">Capping</option>
+                                <option value="observation">Observation</option>
                             </select>
                             <select class="custom-select" id="carousel_rel_to">
-                                <option selected>To...</option>
-                                <option value="1">Separator 1</option>
-                                <option value="2">Separator 2</option>
-                                <option value="3">Separator 3</option>
-                                <option value="4">Dosing 1</option>
-                                <option value="5">Dosing 2</option>
-                                <option value="6">Capping</option>
-                                <option value="7">Observation</option>
+                                <option value="0" selected>To...</option>
+                                <option value="separator1">Separator 1</option>
+                                <option value="separator2">Separator 2</option>
+                                <option value="separator3">Separator 3</option>
+                                <option value="dosing1">Dosing 1</option>
+                                <option value="dosing2">Dosing 2</option>
+                                <option value="capping">Capping</option>
+                                <option value="observation">Observation</option>
                             </select>
                             <button class="btn btn-outline-success" id="carousel_relative_auto_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend w-50">
+                            <button class="btn btn-outline-success w-100" id="prev_btn">Previous Cuvette</button>
+                        </div>
+                        <div class="input-group-append w-50">
+                            <button class="btn btn-outline-success w-100" id="next_btn">Next Cuvette</button>
                         </div>
                     </div>
                 </div>
@@ -140,6 +148,9 @@
                             <button class="btn btn-outline-primary" id="pump_2_dispense_btn">Dispense</button>
                             <button class="btn btn-outline-primary" id="pump_2_suction_btn">Suction</button>
                         </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-primary w-100" id="purge_btn">Purge Pumps</button>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -210,11 +221,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card" style="width: 100%;"> 
+            <div class="card" style="width: 100%;">
                 <!-- ROS Status Card -->
                 <div class="card-body" style="width: 100%;height: 200px;">
                     <!-- <h4 class="card-title">ROS Status</h4> -->
-                    <textarea class="form-control" id="bio_status_output" readonly style="height: 100%; resize: none; font-size: 0.75rem;"></textarea>
+                    <textarea class="form-control biobox" id="bio_status_output" readonly
+                        style="height: 100%; resize: none; font-size: 0.75rem;"></textarea>
                 </div>
             </div>
         </div>
