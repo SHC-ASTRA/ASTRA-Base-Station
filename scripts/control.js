@@ -69,27 +69,31 @@ function setupRosNode() {
     fr_motor_pub = new ROSLIB.Topic({
         ros: ros,
         name: "/teensy/motor/front_right/power",
-        messageType: "std_msgs/Float32"
+        messageType: "std_msgs/Float32",
+        queue_size: 1
     });
     fl_motor_pub = new ROSLIB.Topic({
         ros: ros,
         name: "/teensy/motor/front_left/power",
-        messageType: "std_msgs/Float32"
+        messageType: "std_msgs/Float32",
+        queue_size: 1
     });
     br_motor_pub = new ROSLIB.Topic({
         ros: ros,
         name: "/teensy/motor/back_right/power",
-        messageType: "std_msgs/Float32"
+        messageType: "std_msgs/Float32",
+        queue_size: 1
     });    
     bl_motor_pub = new ROSLIB.Topic({
         ros: ros,
         name: "/teensy/motor/back_left/power",
-        messageType: "std_msgs/Float32"
+        messageType: "std_msgs/Float32",
+        queue_size: 1
     });
 
     imu_sub = new ROSLIB.Topic({
         ros: ros,
-        name: "/sensor/zed2/zed_node/imu/data",
+        name: "/sensor/zed2/zed_node/imu/data_drop",
         messageType: "sensor_msgs/Imu"
     });
 
@@ -206,7 +210,7 @@ function handleAnalogInput(event) {
         return;
     }
 
-    if (Input.enabled)
+    if (Input.enabled && rosConnected)
     {
         if (input.name == "RIGHT_ANALOG_STICK") {
             TankState.right = -input.position.y;

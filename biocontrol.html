@@ -12,144 +12,214 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="./js/jquery.min.js"></script>
+    <script src="./js/jquery-3.6.0.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/eventemitter2.js"></script>
     <script src="./js/roslib.js"></script>
+	<script src="./scripts/navbar.js"></script>
+    <script src="./scripts/bioindex.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">ASTRA</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
-            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavId">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/index.html">Rover Control<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/biocontrol.html">Bio Control</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div id="navbar"></div>
     <div class="container-fluid">
-        <div class="row mx-3 my-5">
-            <div class="col-md-auto">
-                <div class="card p-3">
-                    <h5 class="card-title text-center">Carousel</h5>
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Carousel Position</span>
-                            </div>
-                            <h6 class="form-control" id="carousel_position">0.0</h6>
+        <div class="row mx-3 my-3">
+
+            <div class="card p-3">
+                <h5 class="card-title text-center">Carousel</h5>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Carousel Position</span>
                         </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Absolute Target</span>
-                            </div>
-                            <input type="number" class="form-control" id="carousel_target" min="0" max="10" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-success" id="carousel_absolute_target_btn">Go</button>
-                            </div>
+                        <h6 class="form-control" id="carousel_position">0.0</h6>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Absolute Target</span>
                         </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Relative Target</span>
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="carousel_next_cuvette_btn">Next Cuvette</button>
-                                <button class="btn btn-outline-primary" id="carousel_next_pump_btn">Next Pump</button>
-                                <button class="btn btn-outline-primary" id="carousel_acquire_sample_btn">Acquire Sample </button>
-                            </div>
+                        <input type="number" class="form-control" id="carousel_target" min="0" max="10" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" id="carousel_absolute_target_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Relative Target</span>
+                        </div>
+                        <input type="number" class="form-control" id="rel_carousel_target" min="-10" max="10" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" id="carousel_relative_target_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Auto Relative</span>
+                        </div>
+                        <div class="input-group-append">
+                            <select class="custom-select" id="carousel_rel_from">
+                                <option selected>From...</option>
+                                <option value="1">Separator 1</option>
+                                <option value="2">Separator 2</option>
+                                <option value="3">Separator 3</option>
+                                <option value="4">Dosing 1</option>
+                                <option value="5">Dosing 2</option>
+                                <option value="6">Capping</option>
+                                <option value="7">Observation</option>
+                            </select>
+                            <select class="custom-select" id="carousel_rel_to">
+                                <option selected>To...</option>
+                                <option value="1">Separator 1</option>
+                                <option value="2">Separator 2</option>
+                                <option value="3">Separator 3</option>
+                                <option value="4">Dosing 1</option>
+                                <option value="5">Dosing 2</option>
+                                <option value="6">Capping</option>
+                                <option value="7">Observation</option>
+                            </select>
+                            <button class="btn btn-outline-success" id="carousel_relative_auto_btn">Go</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card p-3">
+                <h5 class="card-title text-center">Function Control 1</h5>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fan 1</span>
+                        </div>
+                        <input type="number" class="form-control" id="fan_one_time" min="0" max="20" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="fan_one_btn">Enable</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fan 2</span>
+                        </div>
+                        <input type="number" class="form-control" id="fan_two_time" min="0" max="20" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="fan_two_btn">Enable</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fan 3</span>
+                        </div>
+                        <input type="number" class="form-control" id="fan_three_time" min="0" max="20" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="fan_three_btn">Enable</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Pump 1</span>
+                        </div>
+                        <input type="number" class="form-control" id="pump_one_time" min="0" max="2" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="pump_1_dispense_btn">Dispense</button>
+                            <button class="btn btn-outline-primary" id="pump_1_suction_btn">Suction</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Pump 2</span>
+                        </div>
+                        <input type="number" class="form-control" id="pump_two_time" min="0" max="2" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="pump_2_dispense_btn">Dispense</button>
+                            <button class="btn btn-outline-primary" id="pump_2_suction_btn">Suction</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Actuator</span>
+                        </div>
+                        <input type="number" class="form-control" id="actuator_time" min="-11" max="11" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="actuator_extend_btn">Extend</button>
+                            <button class="btn btn-outline-primary" id="actuator_retract_btn">Retract</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card p-3">
+                <h5 class="card-title text-center">Function Control 2</h5>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Cup Servo 1</span>
+                        </div>
+                        <input type="number" class="form-control" id="cup_servo_1_pos" min="0" max="180" step="1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="cup_servo_1_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Cup Servo 2</span>
+                        </div>
+                        <input type="number" class="form-control" id="cup_servo_2_pos" min="0" max="180" step="1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="cup_servo_2_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Cup Servo 3</span>
+                        </div>
+                        <input type="number" class="form-control" id="cup_servo_3_pos" min="0" max="180" step="1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="cup_servo_3_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Capping Servo</span>
+                        </div>
+                        <input type="number" class="form-control" id="cap_servo_pos" min="0" max="180" step="1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="cap_servo_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Microscope Servo</span>
+                        </div>
+                        <input type="number" class="form-control" id="microscope_servo_pos" min="0" max="180" step="1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="microscope_servo_btn">Go</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-auto">
-                <div class="card p-3">
-                    <h5 class="card-title text-center">Auxilliary Control</h5>
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Fan 1</span>
-                            </div>
-                            <input type="number" class="form-control" id="fan_one_time" min="0" max="20" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="fan_one_btn">Enable</button>
-                            </div>
-                        </div>        
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Fan 2</span>
-                            </div>
-                            <input type="number" class="form-control" id="fan_two_time" min="0" max="20" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="fan_two_btn">Enable</button>
-                            </div>
-                        </div>        
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Fan 3</span>
-                            </div>
-                            <input type="number" class="form-control" id="fan_three_time" min="0" max="20" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="fan_three_btn">Enable</button>
-                            </div>
-                        </div>        
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Pump 1</span>
-                            </div>
-                            <input type="number" class="form-control" id="pump_one_time" min="0" max="2" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="pump_one_btn">Enable</button>
-                            </div>
-                        </div>        
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Pump 2</span>
-                            </div>
-                            <input type="number" class="form-control" id="pump_two_time" min="0" max="2" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="pump_two_btn">Enable</button>
-                            </div>
-                        </div>   
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Actuator</span>
-                            </div>
-                            <input type="number" class="form-control" id="actuator_time" min="-11" max="11" step="0.1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="actuator_btn">Enable</button>
-                            </div>
-                        </div>                      
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Cup Servo</span>
-                            </div>
-                            <input type="number" class="form-control" id="cup_servo_pos" min="0" max="180" step="1"
-                                placeholder="0.0">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" id="cup_servo_btn">Go</button>
-                            </div>
-                        </div>               
-                    </div>
+            <div class="card" style="width: 100%;"> 
+                <!-- ROS Status Card -->
+                <div class="card-body" style="width: 100%;height: 200px;">
+                    <!-- <h4 class="card-title">ROS Status</h4> -->
+                    <textarea class="form-control" id="bio_status_output" readonly style="height: 100%; resize: none; font-size: 0.75rem;"></textarea>
                 </div>
             </div>
         </div>
+
+
     </div>
 </body>
 

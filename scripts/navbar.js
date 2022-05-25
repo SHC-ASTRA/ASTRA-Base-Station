@@ -1,4 +1,5 @@
 var ros;
+var rosConnected = false;
 
 function setupNavBar(divID, callback) {
     $(divID).load("navbar.html", callback);
@@ -23,6 +24,7 @@ function setupRos() {
         button.removeClass("btn-outline-success");
         button.addClass("btn-outline-danger");
         button.text("Disconnect");
+	rosConnected = true;
     });
 
     ros.on('error', function (error) {
@@ -30,6 +32,7 @@ function setupRos() {
         button.addClass("btn-outline-success");
         button.removeClass("btn-outline-danger");
         button.text("Connect");
+	rosConnected = false;
     });
 
     ros.on('close', function () {
@@ -37,6 +40,7 @@ function setupRos() {
         button.addClass("btn-outline-success");
         button.removeClass("btn-outline-danger");
         button.text("Connect");
+	rosConnected = false;
     });
 
     ros.connect(address);
