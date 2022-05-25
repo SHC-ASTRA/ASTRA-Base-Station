@@ -5,9 +5,30 @@ var ros_status;
 var ros;
 
 // ROS Subscribers
-var bio_sub;
+var gps_sub;
+var performance_sub;
+var battery_sub;
+var lidar_sub;
+var rosout_sub;
+
+// ROS Publishers
+var human_control_pub;
+
+// LiDAR Display Variables
+var lidar_canvas;
+var lidar_ctx;
+var sin_cache;
+var cos_cache;
+var lidar_alternate = false;
+var lidar_scale = 100;
 
 // global control variables
+var speed = 0;
+var direction = 0;
+
+var control_input_delay = 10; // milliseconds
+var last_control_input = 0;
+var control_input_enabled = true;
 
 function preSetup() {
   setupNavBar("#navbar", setup);
@@ -18,7 +39,7 @@ function setup() {
   // setup_lidar_display();
 
   // Establish all element references for later use
-  ros_status = $('#bio_status_output');
+  ros_status = $('#ros_status_output');
 
   // Setup ROS
   ros = setupRos();
