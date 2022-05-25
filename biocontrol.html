@@ -95,43 +95,43 @@
 
             </div>
             <div class="card p-3">
-                <h5 class="card-title text-center">Function Control 1</h5>
+                <h5 class="card-title text-center">Fans and Pumps</h5>
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Fan 1</span>
                         </div>
-                        <input type="number" class="form-control" id="fan_one_time" min="0" max="20" step="0.1"
+                        <input type="number" class="form-control" id="fan_1_time" min="0" max="20" step="0.1"
                             placeholder="0.0">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary" id="fan_one_btn">Enable</button>
+                            <button class="btn btn-outline-primary" id="fan_1_btn">Run</button>
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Fan 2</span>
                         </div>
-                        <input type="number" class="form-control" id="fan_two_time" min="0" max="20" step="0.1"
+                        <input type="number" class="form-control" id="fan_2_time" min="0" max="20" step="0.1"
                             placeholder="0.0">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary" id="fan_two_btn">Enable</button>
+                            <button class="btn btn-outline-primary" id="fan_2_btn">Run</button>
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Fan 3</span>
                         </div>
-                        <input type="number" class="form-control" id="fan_three_time" min="0" max="20" step="0.1"
+                        <input type="number" class="form-control" id="fan_3_time" min="0" max="20" step="0.1"
                             placeholder="0.0">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-primary" id="fan_three_btn">Enable</button>
+                            <button class="btn btn-outline-primary" id="fan_3_btn">Run</button>
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Pump 1</span>
                         </div>
-                        <input type="number" class="form-control" id="pump_one_time" min="0" max="2" step="0.1"
+                        <input type="number" class="form-control" id="pump_1_time" min="0" max="2" step="0.1"
                             placeholder="0.0">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" id="pump_1_dispense_btn">Dispense</button>
@@ -142,7 +142,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Pump 2</span>
                         </div>
-                        <input type="number" class="form-control" id="pump_two_time" min="0" max="2" step="0.1"
+                        <input type="number" class="form-control" id="pump_2_time" min="0" max="2" step="0.1"
                             placeholder="0.0">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" id="pump_2_dispense_btn">Dispense</button>
@@ -152,22 +152,10 @@
                     <div class="input-group mb-3">
                         <button class="btn btn-outline-primary w-100" id="purge_btn">Purge Pumps</button>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Actuator</span>
-                        </div>
-                        <input type="number" class="form-control" id="actuator_time" min="-11" max="11" step="0.1"
-                            placeholder="0.0">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-primary" id="actuator_extend_btn">Extend</button>
-                            <button class="btn btn-outline-primary" id="actuator_retract_btn">Retract</button>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <div class="card p-3">
-                <h5 class="card-title text-center">Function Control 2</h5>
+                <h5 class="card-title text-center">Servos and Actuator</h5>
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -217,6 +205,17 @@
                             placeholder="0.0">
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" id="microscope_servo_btn">Go</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Actuator</span>
+                        </div>
+                        <input type="number" class="form-control" id="actuator_time" min="0" max="11" step="0.1"
+                            placeholder="0.0">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="actuator_extend_btn">Extend</button>
+                            <button class="btn btn-outline-primary" id="actuator_retract_btn">Retract</button>
                         </div>
                     </div>
                 </div>

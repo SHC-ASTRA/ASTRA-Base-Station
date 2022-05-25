@@ -52,6 +52,20 @@ function setup() {
   $('#carousel_relative_auto_btn').click(auto_rel);
   $('#prev_btn').click(prev_cuv);
   $('#next_btn').click(next_cuv);
+  $('#fan_1_btn').click(fan1);
+  $('#fan_2_btn').click(fan2);
+  $('#fan_3_btn').click(fan3);
+  $('#pump_1_dispense_btn').click(blow_p1);
+  $('#pump_1_suction_btn').click(suck_p1);
+  $('#pump_2_dispense_btn').click(blow_p2);
+  $('#pump_2_suction_btn').click(suck_p2);
+  $('#cup_servo_1_btn').click(sv1_move);
+  $('#cup_servo_2_btn').click(sv2_move);
+  $('#cup_servo_3_btn').click(sv3_move);
+  $('#cap_servo_btn').click(sv4_move);
+  $('#microscope_servo_btn').click(sv5_move);
+  $('#actuator_extend_btn').click(act_extend);
+  $('#actuator_retract_btn').click(act_retract);
 
 }
 
@@ -113,7 +127,81 @@ function prev_cuv() {
   send_command("cr -1");
 }
 
+function fan1()
+{
+  runtime = $("#fan_1_time").val();
+  send_command("f1 "+runtime);
+}
 
+function fan2()
+{
+  runtime = $("#fan_2_time").val();
+  send_command("f2 "+runtime);
+}
+
+function fan3()
+{
+  runtime = $("#fan_3_time").val();
+  send_command("f3 "+runtime);
+}
+
+function blow_p1()
+{
+  runtime = $("#pump_1_time").val();
+  send_command("p1 "+runtime);
+}
+function suck_p1()
+{
+  runtime = $("#pump_1_time").val();
+  send_command("p1 -"+runtime);
+}
+function blow_p2()
+{
+  runtime = $("#pump_2_time").val();
+  send_command("p2 "+runtime);
+}
+function suck_p2()
+{
+  runtime = $("#pump_2_time").val();
+  send_command("p2 -"+runtime);
+}
+
+function sv1_move()
+{
+  pos = $("#cup_servo_1_pos").val();
+  send_command("s1 " + pos);
+}
+function sv2_move()
+{
+  pos = $("#cup_servo_2_pos").val();
+  send_command("s2 " + pos);
+}
+function sv3_move()
+{
+  pos = $("#cup_servo_3_pos").val();
+  send_command("s3 " + pos);
+}
+function sv4_move()
+{
+  pos = $("#cap_servo_pos").val();
+  send_command("s4 " + pos);
+}
+function sv5_move()
+{
+  pos = $("#microscope_servo_pos").val();
+  send_command("s5 " + pos);
+}
+
+function act_extend()
+{
+  pos = $("#actuator_time").val();
+  send_command("at " + pos);
+}
+function act_retract()
+{
+  pos = $("#actuator_time").val();
+  send_command("at -" + pos);
+}
 
 function purge_pumps() {
   send_command("pp")
